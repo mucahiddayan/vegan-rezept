@@ -54,7 +54,7 @@ class VeganRezept {
             'slug'                  => 'recipes',
             'parent_url'            => $bp->displayed_user->domain,
             'parent_slug'           => $bp->profile->slug,
-            'screen_function'       => 'recipes_screen',			
+            'screen_function'       => array($this,'recipes_screen'),			
             'position'              => 200,
             'default_subnav_slug'   => 'recipes'
         ) );
