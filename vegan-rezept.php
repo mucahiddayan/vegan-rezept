@@ -11,7 +11,7 @@
 
 class VeganRezept {
 
-    protected $pluginDirUrl;
+    private $pluginDirUrl;
     private $slug = 'asana-finder';
 
     public function __construct(){
