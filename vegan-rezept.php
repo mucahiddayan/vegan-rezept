@@ -28,7 +28,7 @@ class VeganRezept {
         wp_register_script('vegan_rezept_js',plugin_dir_url( __FILE__ ) . 'js/main.js', array(), '1.0', true );
         wp_localize_script('vegan_rezept_js','veganRezept',array(
                                         'nonce'=>wp_create_nonce( 'wp_rest' ),
-                                        'pluginDirUrl' => $this->pluginDirUrl
+                                        'pluginDirUrl' => plugin_dir_url( __FILE__ )
                                 )
                                     );
         wp_enqueue_script( 'vegan_rezept_js');
