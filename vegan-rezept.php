@@ -24,7 +24,7 @@ class VeganRezept {
     /**
      * Style and JS Files is being embedded
      */
-    private function vegan_rezept_styles(){
+    public function vegan_rezept_styles(){
         
         wp_enqueue_style( 'vegan_rezept_style', $this->$pluginDirUrl .'css/style.css', '', true );
         wp_enqueue_style('fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css', '3.2.1', 'all' );
