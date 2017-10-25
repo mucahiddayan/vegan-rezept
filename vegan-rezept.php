@@ -11,13 +11,13 @@
 
 class VeganRezept {
 
-    private $pluginDirUrl;
+    private $pluginDirUrl = plugin_dir_url( __FILE__ );
     private $slug = 'asana-finder';
 
     public function __construct(){
-        $this-> pluginDirUrl = plugin_dir_url( __FILE__ );
+        
         add_action( 'wp_enqueue_scripts', array( $this,'vegan_rezept_styles') );
-        echo $this-> pluginDirUrl;
+       
     }
 
 
@@ -25,7 +25,7 @@ class VeganRezept {
      * Style and JS Files is being embedded
      */
     public function vegan_rezept_styles(){
-        
+        echo $this-> pluginDirUrl;
         wp_enqueue_style( 'vegan_rezept_style', $this->$pluginDirUrl .'css/style.css', '', true );
         wp_enqueue_style('fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css', '3.2.1', 'all' );
         wp_register_script('vegan_rezept_js',$this->$pluginDirUrl . 'js/main.js', array(), '1.0', true );
