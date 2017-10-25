@@ -66,7 +66,7 @@ class VeganRezept {
         bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
     }
 
-    public function get_title(){
+    public function get_tab_title(){
         echo 'Rezepte';
     }
 
