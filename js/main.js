@@ -31,7 +31,7 @@ let createRecipe = (recipe)=>{
  * 
  * @param {WP_Post} recipe 
  */
-let editRecipe = (id,recipe)=>{
+let editRecipe = (recipe)=>{
     if(!recipe.id || recipe.id == 0){
         console.warn('ID is required and it can not be 0');
         return;
@@ -44,6 +44,22 @@ let editRecipe = (id,recipe)=>{
             'Content-Type':'application/json'
         },
         body:JSON.stringify(recipe),
+    })
+    .then(e=>e.json());
+}
+
+let deleteRecipe = (id)=>{
+    if(!id || id == 0){
+        console.warn('ID is required and it can not be 0');
+        return;
+    }
+    return fetch(`${location.origin}/wp-json/wp/v2/recipes/${id}`,{
+        method:'delete',
+        credentials: 'include',
+        headers:{
+            'X-WP-Nonce':veganRezept.nonce,
+            'Content-Type':'application/json'
+        }
     })
     .then(e=>e.json());
 }
