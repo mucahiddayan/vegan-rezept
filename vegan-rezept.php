@@ -11,11 +11,11 @@
 
 class VeganRezept {
 
-    private $pluginDirUrl = plugin_dir_url( __FILE__ );
+    private $pluginDirUrl;
     private $slug = 'asana-finder';
 
     public function __construct(){
-        
+        $this->pluginDirUrl = plugin_dir_url( __FILE__ );
         add_action( 'wp_enqueue_scripts', array( $this,'vegan_rezept_styles') );
        
     }
