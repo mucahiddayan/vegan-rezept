@@ -16,7 +16,7 @@ class VeganRezept {
     public function __construct(){
         add_action( 'wp_enqueue_scripts', array( $this,'vegan_rezept_styles') );
         add_action('bp_core_activated_user', array( $this,'bp_custom_registration_role',10 , 3));
-        
+        add_action( 'bp_setup_nav', array( $this,'add_rezept_tab', 100) );
     }
     
     
@@ -44,7 +44,37 @@ class VeganRezept {
         $userdata['ID'] = $user_id;
         $userdata['role'] = 'veganer'; 
         wp_update_user($userdata);   
-    }    
+    }
+
+    public function add_rezept_tab(){
+        global $bp;
+        
+        bp_core_new_nav_item( array(
+            'name'                  => 'Rezepte',
+            'slug'                  => 'recipes',
+            'parent_url'            => $bp->displayed_user->domain,
+            'parent_slug'           => $bp->profile->slug,
+            'screen_function'       => 'recipes_screen',			
+            'position'              => 200,
+            'default_subnav_slug'   => 'recipes'
+        ) );
+    }
+
+    public function recipes_screen(){
+        add_action( 'bp_template_title', array($this,'get_tab_title') );
+        add_action( 'bp_template_content', array($this,'get_recipes') );
+        bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
+    }
+
+    public function get_title(){
+        echo 'Rezepte';
+    }
+
+    public function get_recipes(){
+        echo 'for now just me';
+    }
+
+    #bp_displayed_user_id()
 }
 
 $vegan_rezept = new VeganRezept();
