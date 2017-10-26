@@ -79,14 +79,12 @@ class VeganRezept {
             'post_type'     =>  'recipe',
         );
         $query = new WP_Query($args);
-        ob_start();        
+              
         ?>
         <script type="text/javascript">var recipes= `<?php echo json_encode($query->posts);?>`;</script>
         <recipes ng-app="app" ng-controller="mainController" r-init="recipes"></recipes>
         <?php
-        return ob_get_clean();
-        
-        
+               
     }
 
     #bp_displayed_user_id()
