@@ -81,8 +81,12 @@ class VeganRezept {
         $query = new WP_Query($args);
               
         ?>
-        <script type="text/javascript">var recipes= `<?php echo json_encode($query->posts);?>`;</script>
-        <recipes ng-app="app" r-init="JSON.parse(recipes)"></recipes>
+        <script type="text/javascript">
+            var data= `<?php echo json_encode($query->posts);?>`;
+            var recipes = JSON.parse(data);
+        
+        </script>
+        <recipes ng-app="app" r-init="recipes"></recipes>
         <?php
                
     }
