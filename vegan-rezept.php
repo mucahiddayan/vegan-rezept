@@ -78,7 +78,7 @@ class VeganRezept {
             'post_type'     =>  'recipe',
         );
         $query = new WP_Query($args);
-        echo '<script type="text/javascript">var recipes= "'.json_encode($query->posts).'";</script>';
+        echo '<script type="text/javascript">var recipes= `'.json_encode($query->posts).'`;</script>';
         
     }
 
