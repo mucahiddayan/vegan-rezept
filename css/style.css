@@ -1,0 +1,20 @@
+.recipe-wrapper.ng-scope {
+    position: relative;
+    width: 100%;
+    padding: 10px;
+    display: inline-block;
+}
+
+.recipe {
+    width: 40%;
+    margin: 0px 5px 0px 0px;
+    height: 200px;
+    box-shadow: 0px 0px 1px 0px #333;
+    padding: 5px;
+    text-align: center;
+    border-radius:10px
+}
+
+.recipe:hover{
+    box-shadow: 0px 0px 5px 0px #333;
+}
