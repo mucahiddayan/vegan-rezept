@@ -71,6 +71,14 @@ class VeganRezept {
     }
 
     public function get_recipes(){
+        $args = array(
+            'author'        =>  bp_displayed_user_id(),
+            'orderby'       =>  'post_date',
+            'order'         =>  'ASC',
+            'post_type'     =>  'recipe',
+        );
+        $query = new WP_Query($args);
+        var_dump($query->posts);
         echo 'for now just me from '.bp_displayed_user_id();
     }
 
