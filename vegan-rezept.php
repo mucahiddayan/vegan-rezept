@@ -84,7 +84,7 @@ class VeganRezept {
         <script type="text/javascript">var recipes= `<?php echo json_encode($query->posts);?>`;</script>
         <recipes ng-app="app" ng-controller="mainController" r-init="recipes"></recipes>
         <?php
-        ob_end_clean();
+        return ob_get_clean();
         
         
     }
