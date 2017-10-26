@@ -86,7 +86,7 @@ class VeganRezept {
 
     public function show_recipes(){              
         ?>       
-        <recipes ng-app="app" r-init="veganRezept.recipes"></recipes>
+        <recipes ng-app="app" r-init="JSON.parse(veganRezept.recipes)"></recipes>
         <?php
                
     }
