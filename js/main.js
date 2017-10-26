@@ -101,15 +101,16 @@ app.directive('recipes',()=>{
         console.log(scope.recipes);
     }
 
-    let template = ()=>{
+    let template = (el,attrs)=>{
         return `
                 <div id="filter-wrapper">
-                    <input type="text" ng-model="search"/>
+                    <input type="text" ng-model="search" placeholder="Suche nach Rezepten"/>
                 </div>
-                <div class="recipe-wrapper" ng-repeat="recipe in recipes |filter:search track by $index">
+                <div class="recipe-wrapper" ng-ig="recipes.length" ng-repeat="recipe in recipes |filter:search track by $index">
                 <div class="recipe">
-                    <span ng-bind="recipe.title.rendered"></span>
+                    <a target="_blank" rel="nofollow" href="{{recipe.guid}}"><span ng-bind="recipe.post_title"></span>
                 </div>
+                <h2 class="recipes-empty" ng-if="!recipes.length">Es gibt kein Rezept zu zeigen!</h2>
         </div>`;
     }
     return {
