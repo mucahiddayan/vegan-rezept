@@ -87,10 +87,12 @@ class VeganRezept {
 
     public function extract_to_array($inArray){
         $arr = array();
+        
         foreach($inArray as $recipe){            
-            $arr[$recipe->ID]['img']   = get_the_post_thumbnail_url($recipe->ID);
-            $arr[$recipe->ID]['title'] = $recipe->post_title;
-            $arr[$recipe->ID]['link']  = $recipe->guid;            
+            $arr['id']    = $recipe->ID;
+            $arr['img']   = get_the_post_thumbnail_url($recipe->ID);
+            $arr['title'] = $recipe->post_title;
+            $arr['link']  = $recipe->guid;            
         }
         return $arr;
     }
