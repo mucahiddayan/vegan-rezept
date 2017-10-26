@@ -97,7 +97,7 @@ app.controller('mainController',['$scope',($scope)=>{
 // DIRECTIVES
 app.directive('recipes',()=>{
     let link = (scope,el,attrs)=>{
-        scope.recipes = veganRezept.recipes;
+        scope.recipes = JSON.parse(veganRezept.recipes);
     }
 
     let template = ()=>{
