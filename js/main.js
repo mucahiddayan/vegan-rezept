@@ -98,6 +98,7 @@ app.controller('mainController',['$scope',($scope)=>{
 app.directive('recipes',()=>{
     let link = (scope,el,attrs)=>{
         scope.recipes = JSON.parse(veganRezept.recipes);
+        console.log(scope.recipes);
     }
 
     let template = ()=>{
