@@ -78,8 +78,8 @@ class VeganRezept {
             'post_type'     =>  'recipe',
         );
         $query = new WP_Query($args);
-        var_dump($query->posts);
-        echo 'for now just me from '.bp_displayed_user_id();
+        echo json_encode($query->posts);
+        
     }
 
     #bp_displayed_user_id()
