@@ -85,3 +85,25 @@ let getRecipe = (id)=>{
     })
     .then(e=>e.json());
 }
+
+//################  ANGULARJS ########################
+let app = angular.module('app',[]);
+
+app.controller('mainController',['$scope',($scope)=>{
+    $scope.title = "Rezepte";
+}]);
+
+
+// DIRECTIVES
+app.directive('recipes',()=>{
+    let link = (scope,el,attrs)=>{
+        console.log(scope.rInit);
+    }
+    return {
+        restrict : 'E',
+        scope:{
+            rInit : '=',
+        },
+        link:link
+    };
+});
