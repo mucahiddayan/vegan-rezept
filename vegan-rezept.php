@@ -88,7 +88,7 @@ class VeganRezept {
     public function extract_to_array($inArray){
         $newPost;
         foreach($inArray as $recipe){            
-            $recipe->img_url = get_the_post_thumbnail_url($recipe->ID,'150x150');
+            $recipe->img_url = get_the_post_thumbnail_url($recipe->ID,'td_100x70');
             $recipe->ingredients = get_post_meta($recipe->ID,'recipe_ingredients',true);
         }
         return $inArray;
