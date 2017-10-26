@@ -71,7 +71,7 @@ class VeganRezept {
     }
 
     public function get_recipes(){
-        echo 'for now just me';
+        echo 'for now just me from '.bp_displayed_user_id();
     }
 
     #bp_displayed_user_id()
