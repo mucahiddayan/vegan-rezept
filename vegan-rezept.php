@@ -30,7 +30,8 @@ class VeganRezept {
         wp_enqueue_script('angularjs','https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js', '1.0', true );
         wp_localize_script('vegan_rezept_js','veganRezept',array(
             'nonce'=>wp_create_nonce( 'wp_rest' ),
-            'pluginDirUrl' => plugin_dir_url( __FILE__ )
+            'pluginDirUrl' => plugin_dir_url( __FILE__ ),
+            'recipes' => $this->get_recipes()
             )
         );
         wp_enqueue_script( 'vegan_rezept_js');
@@ -63,7 +64,7 @@ class VeganRezept {
 
     public function recipes_screen(){
         add_action( 'bp_template_title', array($this,'get_tab_title') );
-        add_action( 'bp_template_content', array($this,'get_recipes') );
+        add_action( 'bp_template_content', array($this,'show_recipes') );
         bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
     }
 
@@ -71,22 +72,20 @@ class VeganRezept {
         echo 'Rezepte';
     }
 
-    public function get_recipes(){
+    public function get_recipes($id = 'X'){
+        $id = $id == 'X'?bp_displayed_user_id():$id;
         $args = array(
-            'author'        =>  bp_displayed_user_id(),
+            'author'        =>  $id,
             'orderby'       =>  'post_date',
             'order'         =>  'ASC',
             'post_type'     =>  'recipe',
         );
         $query = new WP_Query($args);
-              
-        ?>
-        <script type="text/javascript">
-            var data= `<?php echo json_encode($query->posts);?>`;
-            var recipes = JSON.parse(data);
-        
-        </script>
-        <recipes ng-app="app" r-init="recipes"></recipes>
+    }
+
+    public function show_recipes(){              
+        ?>       
+        <recipes ng-app="app" r-init="veganRezept.recipes"></recipes>
         <?php
                
     }
