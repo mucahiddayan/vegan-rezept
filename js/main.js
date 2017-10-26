@@ -97,13 +97,26 @@ app.controller('mainController',['$scope',($scope)=>{
 // DIRECTIVES
 app.directive('recipes',()=>{
     let link = (scope,el,attrs)=>{
-        console.log(scope.rInit);
+        scope.recipes = veganRezept.recipes;
+    }
+
+    let template = ()=>{
+        return `
+                <div id="filter-wrapper">
+                    <input type="text" ng-model="search"/>
+                </div>
+                <div class="recipe-wrapper" ng-repeat="recipe in recipes |filter:search track by $index">
+                <div class="recipe">
+                    <span ng-bind="recipe.title.rendered"></span>
+                </div>
+        </div>`;
     }
     return {
         restrict : 'E',
         scope:{
             rInit : '=',
         },
+        template:template,
         link:link
     };
 });
