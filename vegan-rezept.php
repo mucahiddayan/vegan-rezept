@@ -81,7 +81,19 @@ class VeganRezept {
             'post_type'     =>  'recipe',
         );
         $query = new WP_Query($args);
-        return $query->posts;
+        $recipes = extract_to_array($query->posts);
+        
+    }
+
+    public function extract_to_array($inArray){
+        $arr = array();
+        foreach($inArray as $key=>$value){
+            $arr['img'] = get_the_post_thumbnail_url($value['id']);
+            foreach($value as $k=>$v){
+                $arr[$key][$k] = $v;
+            }
+        }
+        return $arr;
     }
 
     public function show_recipes(){              
