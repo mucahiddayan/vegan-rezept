@@ -15,8 +15,8 @@ class VeganRezept {
     
     public function __construct(){
         add_action( 'wp_enqueue_scripts', array( $this,'vegan_rezept_styles') );
-        add_action('bp_core_activated_user', array( $this,'bp_custom_registration_role',10 , 3));
-        add_action( 'bp_setup_nav', array( $this,'add_rezept_tab', 100) );
+        add_action( 'bp_core_activated_user', array( $this,'bp_custom_registration_role'),10 , 3);
+        add_action( 'bp_setup_nav', array( $this,'add_rezept_tab') , 100);
     }
     
     
