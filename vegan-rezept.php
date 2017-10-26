@@ -81,7 +81,7 @@ class VeganRezept {
             'post_type'     =>  'recipe',
         );
         $query = new WP_Query($args);
-        $recipes = extract_to_array($query->posts);
+        $recipes = $this->extract_to_array($query->posts);
         
     }
 
