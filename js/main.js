@@ -108,7 +108,10 @@ app.directive('recipes',()=>{
                 </div>
                 <div class="recipe-wrapper" ng-ig="recipes.length" ng-repeat="recipe in recipes |filter:search track by $index">
                 <div class="recipe">
-                    <a target="_blank" rel="nofollow" href="{{recipe.link}}"><span ng-bind="recipe.title"></span>
+                    <div class="recipe-img">
+                        <img src="recipe.img_url" alt="{{recipe.post_title}}"/>
+                    </div>
+                    <a target="_blank" rel="nofollow" href="{{recipe.guid}}"><span ng-bind="recipe.post_title"></span>
                 </div>
                 <h2 class="recipes-empty" ng-if="!recipes.length">Es gibt kein Rezept zu zeigen!</h2>
         </div>`;

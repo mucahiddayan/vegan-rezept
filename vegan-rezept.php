@@ -82,7 +82,7 @@ class VeganRezept {
         );
         $query = new WP_Query($args);
         $recipes = $this->extract_to_array($query->posts);
-        return array($recipes);
+        return $recipes;
     }
 
     public function extract_to_array($inArray){
