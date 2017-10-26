@@ -31,7 +31,7 @@ class VeganRezept {
         wp_localize_script('vegan_rezept_js','veganRezept',array(
             'nonce'=>wp_create_nonce( 'wp_rest' ),
             'pluginDirUrl' => plugin_dir_url( __FILE__ ),
-            'recipes' => $this->get_recipes()
+            'recipes' => json_encode($this->get_recipes()),
             )
         );
         wp_enqueue_script( 'vegan_rezept_js');
@@ -81,6 +81,7 @@ class VeganRezept {
             'post_type'     =>  'recipe',
         );
         $query = new WP_Query($args);
+        return $query->posts;
     }
 
     public function show_recipes(){              
