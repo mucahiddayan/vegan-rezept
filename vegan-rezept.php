@@ -89,6 +89,7 @@ class VeganRezept {
         $newPost;
         foreach($inArray as $recipe){            
             $recipe->img_url = get_the_post_thumbnail_url($recipe->ID,'td_325x217');
+            $recipe->ingredients = get_post_meta('recipe_ingredients');
         }
         return $inArray;
     }

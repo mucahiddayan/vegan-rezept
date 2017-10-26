@@ -99,7 +99,7 @@ app.directive('recipes',()=>{
     let link = (scope,el,attrs)=>{
         scope.recipes = JSON.parse(veganRezept.recipes);
         scope.defaultImg = `${veganRezept.pluginDirUrl}/img/icon_20.png`;
-        console.log(scope.recipes);
+        // console.log(scope.recipes);
     }
 
     let template = (el,attrs)=>{
