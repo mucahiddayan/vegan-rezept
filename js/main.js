@@ -98,7 +98,7 @@ app.controller('mainController',['$scope',($scope)=>{
 app.directive('recipes',()=>{
     let link = (scope,el,attrs)=>{
         scope.recipes = JSON.parse(veganRezept.recipes);
-        scope.defaultImg = `${veganRezept.pluginDirUrl}/img/icon_20.png`;
+        scope.defaultImg = `${veganRezept.pluginDirUrl}/img/salad.png`;
         console.log(scope.recipes);
     }
 
@@ -111,7 +111,7 @@ app.directive('recipes',()=>{
         <div class="recipe-wrapper" ng-ig="recipes.length" ng-repeat="recipe in recipes |filter:search track by $index">
             <div class="recipe">
                 <div class="recipe-img">
-                    <img ng-src="{{recipe.img_url?recipe.img_url:defaultImg}}" alt="{{recipe.post_title}}"/>
+                    <img title="Icons made by Smashicons from CC 3.0 BY" ng-src="{{recipe.img_url?recipe.img_url:defaultImg}}" alt="{{recipe.post_title}}"/>
                 </div>
                 <a target="_blank" rel="nofollow" href="{{recipe.guid}}">
                     <span ng-bind="recipe.post_title"></span>
