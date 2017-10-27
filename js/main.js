@@ -109,7 +109,7 @@ let getRecipe = (id)=>{
  */
 let createArray = (start=0,end=10,range=1)=>{
     var array = [];
-    for(let i = s; i< e; i += r){
+    for(let i = start; i< end; i += range){
         array.push(i);
     }
     return array;
