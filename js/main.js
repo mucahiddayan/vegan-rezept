@@ -137,7 +137,7 @@ app.filter('excerpt',()=>{
         let spl;
         if(type == 'word'){
             spl = input.split(/\s/ig);
-            return spl.splice(0,lim).join(/\s/);
+            return spl.splice(0,lim).join(' ');
         }
         if(type == 'letter'){
             spl = input.split('');
