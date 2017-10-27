@@ -48,6 +48,11 @@ let editRecipe = (recipe)=>{
     .then(e=>e.json());
 }
 
+/**
+ * deletes recipe with given id
+ * @param {number} id
+ * @returns {Promise}
+ */
 let deleteRecipe = (id)=>{
     if(!id || id == 0){
         console.warn('ID is required and it can not be 0');
@@ -64,6 +69,10 @@ let deleteRecipe = (id)=>{
     .then(e=>e.json());
 }
 
+/**
+ * get all recipes
+ * @returns {Promise}
+ */
 let getRecipes = ()=>{
     return fetch(`${location.origin}/wp-json/wp/v2/recipes`,{
         headers:{
@@ -73,6 +82,11 @@ let getRecipes = ()=>{
     .then(e=>e.json());
 }
 
+/**
+ * 
+ * @param {number} id 
+ * @returns {Promise}
+ */
 let getRecipe = (id)=>{
     if(!id){
         console.warn('ID is required');
@@ -84,6 +98,21 @@ let getRecipe = (id)=>{
         }
     })
     .then(e=>e.json());
+}
+
+/**
+ * 
+ * @param {number} start 
+ * @param {number} end 
+ * @param {number} range 
+ * @returns {array<number>}
+ */
+let createArray = (start=0,end=10,range=1)=>{
+    var array = [];
+    for(let i = s; i< e; i += r){
+        array.push(i);
+    }
+    return array;
 }
 
 //################  ANGULARJS ########################
