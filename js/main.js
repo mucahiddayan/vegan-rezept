@@ -36,7 +36,7 @@ let editRecipe = (recipe)=>{
         console.warn('ID is required and it can not be 0');
         return;
     }
-    return fetch(`${location.origin}/wp-json/wp/v2/recipes`,{
+    return fetch(`${location.origin}/wp-json/wp/v2/recipes/${recipe.id}`,{
         method:'update',
         credentials: 'include',
         headers:{
