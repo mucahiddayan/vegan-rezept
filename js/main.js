@@ -111,7 +111,7 @@ app.directive('recipes',()=>{
         <div class="recipe-wrapper" ng-ig="recipes.length" ng-repeat="recipe in recipes |filter:search track by $index">
             <div class="recipe">
                 <div class="recipe-img">
-                    <img title="Icons made by Smashicons from CC 3.0 BY" ng-src="{{recipe.img_url?recipe.img_url:defaultImg}}" alt="{{recipe.post_title}}"/>
+                    <img ng-title="{recipe.img_url?recipe.post_title:'Icons made by Smashicons from CC 3.0 BY'}" ng-src="{{recipe.img_url?recipe.img_url:defaultImg}}" alt="{{recipe.post_title}}"/>
                 </div>
                 <a target="_blank" rel="nofollow" href="{{recipe.guid}}">
                     <span title="{{recipe.post_title}}" ng-bind="recipe.post_title |excerpt:2"></span>
