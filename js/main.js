@@ -104,18 +104,23 @@ app.directive('recipes',()=>{
 
     let template = (el,attrs)=>{
         return `
-                <div id="filter-wrapper">
-                    <input type="text" ng-model="search" placeholder="Suche nach Rezepten"/>
+        <div id="filter-wrapper">
+        <input type="text" ng-model="search" placeholder="Suche nach Rezepten"/>
+    </div>
+    <div id="recipes-container">
+        <div class="recipe-wrapper" ng-ig="recipes.length" ng-repeat="recipe in recipes |filter:search track by $index">
+            <div class="recipe">
+                <div class="recipe-img">
+                    <img ng-src="{{recipe.img_url?recipe.img_url:defaultImg}}" alt="{{recipe.post_title}}"/>
                 </div>
-                <div class="recipe-wrapper" ng-ig="recipes.length" ng-repeat="recipe in recipes |filter:search track by $index">
-                <div class="recipe">
-                    <div class="recipe-img">
-                        <img ng-src="{{recipe.img_url?recipe.img_url:defaultImg}}" alt="{{recipe.post_title}}"/>
-                    </div>
-                    <a target="_blank" rel="nofollow" href="{{recipe.guid}}"><span ng-bind="recipe.post_title"></span>
-                </div>
-                <h2 class="recipes-empty" ng-if="!recipes.length">Es gibt kein Rezept zu zeigen!</h2>
-        </div>`;
+                <a target="_blank" rel="nofollow" href="{{recipe.guid}}">
+                    <span ng-bind="recipe.post_title"></span>
+                </a>
+            </div>
+            <h2 class="recipes-empty" ng-if="!recipes.length">Es gibt kein Rezept zu zeigen!</h2>
+        </div>
+    </div>
+    `;
     }
     return {
         restrict : 'E',
