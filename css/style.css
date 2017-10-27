@@ -17,11 +17,11 @@
     margin:0px 5px 10px 0px;
 }
 
-.recipe-wrapper:nth-child(1){
+.recipe-wrapper:nth-child(2){
     margin:0px 5px 10px 5px;
 }
 
-.recipe-wrapper:nth-child(2){
+.recipe-wrapper:nth-child(3){
     margin:0px 0px 10px 5px;
 }
 
