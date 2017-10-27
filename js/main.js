@@ -37,7 +37,7 @@ let editRecipe = (recipe)=>{
         return;
     }
     return fetch(`${location.origin}/wp-json/wp/v2/recipes/${recipe.id}`,{
-        method:'update',
+        method:'post',
         credentials: 'include',
         headers:{
             'X-WP-Nonce':veganRezept.nonce,
