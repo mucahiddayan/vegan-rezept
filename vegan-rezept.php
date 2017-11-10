@@ -34,7 +34,8 @@ class VeganRezept {
             'nonce'=>wp_create_nonce( 'wp_rest' ),
             'pluginDirUrl' => plugin_dir_url( __FILE__ ),
             'recipes' => json_encode($this->get_recipes()),
-            'nonce' => wp_create_nonce( 'wp_rest' )
+            'nonce' => wp_create_nonce( 'wp_rest' ),
+            'userID' => get_current_user_id(),
             )
         );
         wp_enqueue_script( 'vegan_rezept_js');
