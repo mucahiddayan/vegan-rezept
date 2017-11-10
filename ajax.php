@@ -14,8 +14,13 @@ if(isset($_POST["func"]) || isset($_GET['func'])){
         }
     }
     if($func === 'get_recipes_from_my_book'){
+        try{
+            $ids = $vegan_rezept->get_recipes_from_my_book();
+        }catch(Exception $e){
+            $ids = $e->getMessage();
+        }
         echo json_encode(array(
-            "recipes" => $vegan_rezept->get_recipes_from_my_book()));
+            "recipes" => $ids ));
     }
 }else{
     echo json_encode(array('message' => 'no request'));
