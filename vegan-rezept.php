@@ -103,6 +103,17 @@ class VeganRezept {
     }
 
     public function add_to_my_book($recipe_id){
+        if(empty($reicpe_id)){
+            throw new Exception("Rezept Id darf nicht fehlen");
+        }
+        try{
+            $post = get_post($recipe_id);
+        } catch(Exception $e){
+            echo 'Exception abgefangen: ',  $e->getMessage(), "\n";
+        }
+        if(!$post){
+            throw new Exception("Dieses Rezept existiert nicht");
+        }
         $userID = get_current_user_id();
         update_post_meta($userID,$this->recipe_book,$recipe_id);
     }
@@ -113,7 +124,11 @@ class VeganRezept {
 
     public function get_recipes_from_my_book(){
         $userID = get_current_user_id();
-        $recipe_ids = get_post_meta($userID,$this->recipe_book);
+        try{
+            $recipe_ids = get_post_meta($userID,$this->recipe_book);
+        }catch(Exception $e){
+            echo 'Exception abgefangen: ',  $e->getMessage(), "\n";
+        }        
         return $recipe_ids;
     }
 
