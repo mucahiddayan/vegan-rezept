@@ -178,7 +178,7 @@ class VeganRezept {
         }
         $userID = $request->get_params()['userID'];
         try{
-            $recipe_ids = get_recipes_from_book($userID);
+            $recipe_ids = $this->get_recipes_from_book($userID);
         }catch(Exception $e){
             return $e->getMessage().' '.$this->errors['no_user'];
         }        
