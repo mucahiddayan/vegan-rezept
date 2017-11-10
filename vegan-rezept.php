@@ -129,7 +129,7 @@ class VeganRezept {
     public function get_recipes_from_my_book(){
         $userID = get_current_user_id();
         try{
-            $recipe_ids = get_post_meta($userID,$this->recipe_book,true);
+            $recipe_ids = get_post_meta($userID,$this->recipe_book,false);
         }catch(Exception $e){
             echo 'Exception abgefangen: ',  $e->getMessage(), "\n";
         }        
