@@ -130,12 +130,15 @@ class VeganRezept {
 
     public function get_recipes_from_my_book($request){
         $userID = $request->get_params()['userID'];
+        if(empty($userID)){
+            throw new Exception("User ID ist plicht");
+        }
         try{
             $recipe_ids = get_post_meta($userID,$this->recipe_book,false);
         }catch(Exception $e){
             echo 'Exception abgefangen: ',  $e->getMessage(), "\n";
         }        
-        return $userID;
+        return $recipe_ids;
     }
 
     public function custom_rest_api_end_points(){
