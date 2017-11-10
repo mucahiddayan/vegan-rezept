@@ -20,4 +20,6 @@ if(isset($_POST["func"])){
     }
 }
 
+echo $vegan_rezept->add_to_my_book(48780);
 var_dump($vegan_rezept->get_recipes_from_my_book());
+
