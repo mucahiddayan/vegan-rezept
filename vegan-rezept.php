@@ -33,7 +33,7 @@ class VeganRezept {
         'no_veganer' => array(
             'status' => 9004,
             'message'=> 'you are not a veganer !'
-        )
+        ),
     );
     
     public function __construct(){
@@ -129,7 +129,7 @@ class VeganRezept {
 
     public function add_to_my_book($request){
         if(empty($request->get_params()) || empty($request->get_params()['userID']) || empty($request->get_params()['recipeID'])){
-            return $this->errors['no_params'];
+            return $this->errors['no_request_params'];
         }
         if(!is_user_logged_in() || !current_user_can('veganer') ){
             return $this->errors['no_veganer'];
