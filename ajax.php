@@ -2,7 +2,7 @@
 require_once  $_SERVER["DOCUMENT_ROOT"]."/wp-load.php";
 
 if(isset($_POST["func"]) || isset($_GET['func'])){
-    $func = $_POST['func'];
+    $func = $_POST['func'] || $_GET['func'];
     if($func === 'add_to_my_book'){
         $recipe_id = $_POST['recipe_id'];
         if(!empty($recipe_id)){
