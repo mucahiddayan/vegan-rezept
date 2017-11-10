@@ -118,7 +118,8 @@ let addToMyBook = (recipeID)=>{
     if(!recipeID){
         console.warn('Recipe ID can not be empty');
         return;
-    }    
+    }
+    headers['X-WP-Nonce'] = veganRezept.nonce;    
     return fetch(`${location.href}wp-json/wp/v2/book/`,{
         method:'POST',
         headers,
