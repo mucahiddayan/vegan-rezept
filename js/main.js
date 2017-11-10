@@ -126,7 +126,7 @@ let addToMyBook = (recipeID)=>{
         credentials: 'include',
         body:JSON.stringify({
             recipeID,
-            userID:veganRezept.userID
+            // userID:veganRezept.userID
             })
     })    
     .catch(err=>console.log(err))
