@@ -128,8 +128,8 @@ class VeganRezept {
         $current = $this->get_recipes_from_my_book();
     }
 
-    public function get_recipes_from_my_book(){
-        $userID = get_current_user_id();
+    public function get_recipes_from_my_book($request){
+        $userID = $request->get_params()['userID'];
         try{
             $recipe_ids = get_post_meta($userID,$this->recipe_book,false);
         }catch(Exception $e){
