@@ -107,13 +107,7 @@ let getRecipe = (id)=>{
 
 let getRecipesFromMyBook = ()=>{
     
-    fetch(veganRezept.pluginDirUrl+'ajax.php',{
-        method:'post',
-        headers:{
-            'Content-Type':'application/json',
-        },
-        body:JSON.stringify({func:'get_recipes_from_my_book'})
-    })
+    fetch(veganRezept.pluginDirUrl+'ajax.php?func=get_recipes_from_my_book')
     .then(e=>e.json())
     .then(e=>console.log(e))
     .catch(err=>console.log(err))
