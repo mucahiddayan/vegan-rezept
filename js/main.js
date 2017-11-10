@@ -111,7 +111,6 @@ let getRecipesFromMyBook = ()=>{
         method:'post',
         headers:{
             'Content-Type':'application/json',
-            'Accept':'application/php'
         },
         body:JSON.stringify({func:'get_recipes_from_my_book'})
     })
