@@ -135,6 +135,16 @@ class VeganRezept {
         return $recipe_ids;
     }
 
+    public function custom_rest_api_end_points(){
+        register_rest_route( 'wj/v2', '/book/', array(
+            array(
+                'methods' => array('GET','POST'),
+                'callback' => array($this,'get_recipes_from_my_book'),
+            ),
+            ) 
+          );      
+    }
+
     #bp_displayed_user_id()
 }
 
