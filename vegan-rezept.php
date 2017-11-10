@@ -143,7 +143,7 @@ class VeganRezept {
     }
 
     public function get_recipes_from_my_book($request){
-        if(empty($request->get_params())){
+        if(empty($request->get_params()) || empty($request->get_params()['userID'])){
             return $this->errors['no_request_params'];
         }
         if(!$userID = $request->get_params()['userID']){
