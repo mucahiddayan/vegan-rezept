@@ -20,6 +20,6 @@ if(isset($_POST["func"])){
     }
 }
 
-echo echo json_encode(array(
+echo  json_encode(array(
     "recipes" => $vegan_rezept->get_recipes_from_my_book()
 ),0,10);
