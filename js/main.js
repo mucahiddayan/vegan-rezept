@@ -128,8 +128,7 @@ let addToMyBook = (recipeID)=>{
             recipeID,
             userID:veganRezept.userID
             })
-    })
-    .then(e=>e.json())
+    })    
     .catch(err=>console.log(err))
 }
 
