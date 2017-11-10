@@ -158,8 +158,8 @@ class VeganRezept {
 
     private function get_recipes_from_book($userID){
         try{
-            $recipes = get_post_meta($userID,$this->recipe_book,false)
-        }catch($e){
+            $recipes = get_post_meta($userID,$this->recipe_book,false);
+        }catch(Exception $e){
             return $e->getMessage();
         }
         return $recipes;
