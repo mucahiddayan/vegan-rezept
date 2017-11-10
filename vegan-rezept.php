@@ -146,12 +146,7 @@ class VeganRezept {
         if(empty($request->get_params())){
             return $this->errors['no_request_params'];
         }
-        try{
-            $userID = $request->get_params()['userID'];
-        }catch(Exception $e){
-            return $e->getMessage();
-        }
-        if(empty($userID)){
+        if(!$userID = $request->get_params()['userID']){
             return $this->errors['no_user_id'];
         }
         try{
