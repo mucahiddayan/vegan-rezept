@@ -103,6 +103,9 @@ class VeganRezept {
     }
 
     public function add_to_my_book($recipe_id){
+        if(!is_user_logged_in() || !current_user_can('veganer') ){
+            throw new Exception("Du bist kein Veganer! Verpiss dich");
+        }
         if(empty($recipe_id)){
             throw new Exception("Rezept Id darf nicht fehlen");
         }
