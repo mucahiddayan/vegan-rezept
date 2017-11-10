@@ -13,6 +13,20 @@ class VeganRezept {
     
     private $slug = 'asana-finder';
     private $recipe_book = '_recipe_book';
+    private $errors = array(
+        'no_request_params' => array(
+            'status' => 9000,
+            'message'=> 'passed no parameter'
+        ),
+        'no_user_id' => array(
+            'status' => 9001,
+            'message'=> 'user id is not set'
+        ),
+        'no_user' => array(
+            'status' => 9002,
+            'message'=> 'no user with this id'
+        )
+    );
     
     public function __construct(){
         add_action( 'wp_enqueue_scripts', array( $this,'vegan_rezept_styles') );
@@ -130,16 +144,16 @@ class VeganRezept {
 
     public function get_recipes_from_my_book($request){
         if(empty($request->get_params())){
-            return array('no_user_id', 'Invalid User ID', array( 'status' => 404 ));
+            return $this->errors['no_request_params'];
         }
         $userID = $request->get_params()['userID'];
         if(empty($userID)){
-            return array('no_user_id', 'Invalid User ID', array( 'status' => 404 ));
+            return $this->errors['no_user_id'];
         }
         try{
             $recipe_ids = get_post_meta($userID,$this->recipe_book,false);
         }catch(Exception $e){
-            echo 'Exception abgefangen: ',  $e->getMessage(), "\n";
+            return $this->errors['no_user'];
         }        
         return $recipe_ids;
     }
