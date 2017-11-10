@@ -3,6 +3,11 @@
 * 
 */
 
+const headers = {
+    'Content-Type':'application/json'
+}
+
+
 /**
 * 
 * @param {WP_Post} recipe
@@ -97,17 +102,31 @@ let getRecipe = (id)=>{
         return;
     }
     return fetch(`${location.origin}/wp-json/wp/v2/recipes/${id}`,{
-        headers:{
-            'Content-Type':'application/json'
-        }
+        headers
     })
     .then(e=>e.json())
     .catch(err=>console.log(err));
 }
 
-let getRecipesFromMyBook = ()=>{
-    
+let getRecipesFromMyBook = ()=>{    
     fetch(`${location.href}/wp-json/wp/book/userID=${veganRezept.userID}`)
+    .then(e=>e.json())
+    .catch(err=>console.log(err))
+}
+
+let addToMyBook = (recipeID)=>{
+    if(!recipeID){
+        console.warn('Recipe ID can not be empty');
+        return;
+    }    
+    fetch(`${location.href}/wp-json/wp/book/`,{
+        method:'POST',
+        headers,
+        body:{
+            recipeID,
+            userID:veganRezept.userID
+            }
+    })
     .then(e=>e.json())
     .catch(err=>console.log(err))
 }

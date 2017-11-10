@@ -119,7 +119,10 @@ class VeganRezept {
                
     }
 
-    public function add_to_my_book($recipe_id){
+    public function add_to_my_book($request){
+        if(empty($request->get_params()) || empty($request->get_params()['userID']) || empty($request->get_params()['recipeID'])){
+            return $this->errors['no_params'];
+        }
         if(!is_user_logged_in() || !current_user_can('veganer') ){
             throw new Exception("Du bist kein Veganer! Verpiss dich");
         }
@@ -159,8 +162,12 @@ class VeganRezept {
         register_rest_route( 'wp/v2', '/book/', 
             array(
                 array(
-                    'methods' => array('GET','POST'),
+                    'methods' => 'GET',
                     'callback' => array($this,'get_recipes_from_my_book'),
+                ),
+                array(
+                    'methods' => 'POST',
+                    'callback' => array($this,'add_to_my_book'),
                 ),
             ) 
         );      
