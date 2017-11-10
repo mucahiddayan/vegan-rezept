@@ -34,6 +34,10 @@ class VeganRezept {
             'status' => 9004,
             'message'=> 'you are not a veganer !'
         ),
+        'no_recipe_id' => array(
+            'status' => 9005,
+            'message'=> 'recipe id is not set'
+        ),
     );
     
     public function __construct(){
@@ -128,9 +132,9 @@ class VeganRezept {
     }
 
     public function add_to_my_book($request){
-        if(empty($request->get_params()) || empty($request->get_params()['userID']) || empty($request->get_params()['recipeID'])){
-            return $this->errors['no_request_params'];
-        }
+        if(empty($request->get_params())){return $this->errors['no_request_params'];} 
+        if(empty($request->get_params()['userID'])){return $this->errors['no_user_id'];}
+        if(empty($request->get_params()['recipeID'])){return $this->errors['no_recipe_id'];}
         if(!is_user_logged_in() || !current_user_can('veganer') ){
             return $this->errors['no_veganer'];
         }
