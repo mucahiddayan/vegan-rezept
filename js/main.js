@@ -119,7 +119,7 @@ let addToMyBook = (recipeID)=>{
         console.warn('Recipe ID can not be empty');
         return;
     }    
-    fetch(`${location.href}wp-json/wp/v2/book/`,{
+    return fetch(`${location.href}wp-json/wp/v2/book/`,{
         method:'POST',
         headers,
         body:{
