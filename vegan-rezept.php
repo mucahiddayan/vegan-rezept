@@ -152,7 +152,10 @@ class VeganRezept {
         }catch(Exception $e){
             return $e->getMessage();
         }
-        update_post_meta($userID,$this->recipe_book,$recipe_id);
+        if(!in_array($recipe_id,$current)){
+            array_push($current,$recipe_id);
+        }
+        update_post_meta($userID,$this->recipe_book,$currentupdate);
         return array($current,$userID,$recipe_id);
     }
 
