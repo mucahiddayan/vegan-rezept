@@ -109,7 +109,7 @@ let getRecipe = (id)=>{
 }
 
 let getRecipesFromMyBook = ()=>{    
-    fetch(`${location.href}/wp-json/wp/book/userID=${veganRezept.userID}`)
+    fetch(`${location.href}wp-json/wp/v2/book/userID=${veganRezept.userID}`)
     .then(e=>e.json())
     .catch(err=>console.log(err))
 }
@@ -119,7 +119,7 @@ let addToMyBook = (recipeID)=>{
         console.warn('Recipe ID can not be empty');
         return;
     }    
-    fetch(`${location.href}/wp-json/wp/book/`,{
+    fetch(`${location.href}wp-json/wp/v2/book/`,{
         method:'POST',
         headers,
         body:{
