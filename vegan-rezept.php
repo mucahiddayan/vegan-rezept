@@ -129,7 +129,7 @@ class VeganRezept {
     public function get_recipes_from_my_book(){
         $userID = get_current_user_id();
         try{
-            $recipe_ids = get_post_meta($userID,$this->recipe_book);
+            $recipe_ids = get_post_meta($userID,$this->recipe_book,true);
         }catch(Exception $e){
             echo 'Exception abgefangen: ',  $e->getMessage(), "\n";
         }        
@@ -137,13 +137,14 @@ class VeganRezept {
     }
 
     public function custom_rest_api_end_points(){
-        register_rest_route( 'wp/v2', '/book/', array(
+        register_rest_route( 'wp/v2', '/book/', 
             array(
-                'methods' => array('GET','POST'),
-                'callback' => array($this,'get_recipes_from_my_book'),
-            ),
+                array(
+                    'methods' => array('GET','POST'),
+                    'callback' => array($this,'get_recipes_from_my_book'),
+                ),
             ) 
-          );      
+        );      
     }
 
     #bp_displayed_user_id()
