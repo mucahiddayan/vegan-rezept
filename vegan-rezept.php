@@ -129,6 +129,9 @@ class VeganRezept {
     }
 
     public function get_recipes_from_my_book($request){
+        if(empty($request->get_params())){
+            return array('no_user_id', 'Invalid User ID', array( 'status' => 404 ));
+        }
         $userID = $request->get_params()['userID'];
         if(empty($userID)){
             return array('no_user_id', 'Invalid User ID', array( 'status' => 404 ));
