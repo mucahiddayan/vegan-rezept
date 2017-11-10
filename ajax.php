@@ -19,3 +19,5 @@ if(isset($_POST["func"])){
         ));
     }
 }
+
+var_dump($vegan_rezept->get_recipes_from_my_book());
