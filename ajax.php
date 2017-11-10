@@ -1,7 +1,7 @@
 <?php 
 require_once  $_SERVER["DOCUMENT_ROOT"]."/wp-load.php";
 
-if(isset($_POST["func"])){
+if(isset($_POST["func"]) || isset($_GET['func'])){
     $func = $_POST['func'];
     if($func === 'add_to_my_book'){
         $recipe_id = $_POST['recipe_id'];
@@ -18,5 +18,5 @@ if(isset($_POST["func"])){
             "recipes" => $vegan_rezept->get_recipes_from_my_book()));
     }
 }else{
-    echo json_encode(array('message' => 'no post request'));
+    echo json_encode(array('message' => 'no request'));
 }
