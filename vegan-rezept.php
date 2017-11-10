@@ -18,6 +18,7 @@ class VeganRezept {
         add_action( 'wp_enqueue_scripts', array( $this,'vegan_rezept_styles') );
         add_action( 'bp_core_activated_user', array( $this,'bp_custom_registration_role'),10 , 3);
         add_action( 'bp_setup_nav', array( $this,'add_rezept_tab') , 100);
+        add_action( 'rest_api_init', array( $this,'custom_rest_api_end_points'));
     }
     
     
@@ -136,7 +137,7 @@ class VeganRezept {
     }
 
     public function custom_rest_api_end_points(){
-        register_rest_route( 'wj/v2', '/book/', array(
+        register_rest_route( 'wp/v2', '/book/', array(
             array(
                 'methods' => array('GET','POST'),
                 'callback' => array($this,'get_recipes_from_my_book'),
