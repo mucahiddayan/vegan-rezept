@@ -109,7 +109,7 @@ let getRecipe = (id)=>{
 }
 
 let getRecipesFromMyBook = ()=>{    
-    return fetch(`${location.origin}wp-json/wp/v2/book?userID=${veganRezept.userID}`)
+    return fetch(`${location.origin}/wp-json/wp/v2/book?userID=${veganRezept.userID}`)
     .then(e=>e.json())
     .catch(err=>console.log(err))
 }
@@ -120,7 +120,7 @@ let addToMyBook = (recipeID)=>{
         return;
     }
     headers['X-WP-Nonce'] = veganRezept.nonce;    
-    return fetch(`${location.origin}wp-json/wp/v2/book/`,{
+    return fetch(`${location.origin}/wp-json/wp/v2/book/`,{
         method:'POST',
         headers,
         credentials: 'include',
