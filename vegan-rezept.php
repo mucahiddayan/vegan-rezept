@@ -133,7 +133,7 @@ class VeganRezept {
 
     public function add_to_my_book($request){
         if(empty($request->get_params())){return $this->errors['no_request_params'];} 
-        if(empty($request->get_params()['userID'])){return $this->errors['no_user_id'];}
+        if(empty($userID = $request->get_params()['userID'])){return $this->errors['no_user_id'];}
         if(empty($recipe_id = $request->get_params()['recipeID'])){return $this->errors['no_recipe_id'];}
         if(!is_user_logged_in() || !current_user_can('veganer') ){
             return $this->errors['no_veganer'];
@@ -146,7 +146,7 @@ class VeganRezept {
         if(!$post){
             return $this->errors['recipe_not_exist'];
         }
-        $userID = get_current_user_id();
+        
         return update_post_meta($userID,$this->recipe_book,$recipe_id);
     }
 
