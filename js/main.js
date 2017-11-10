@@ -110,7 +110,6 @@ let getRecipe = (id)=>{
 
 let getRecipesFromMyBook = ()=>{    
     return fetch(`${location.origin}/wp-json/wp/v2/book?userID=${veganRezept.userID}`)
-    .then(e=>e.json())
     .catch(err=>console.log(err))
 }
 
