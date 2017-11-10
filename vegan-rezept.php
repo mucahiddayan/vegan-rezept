@@ -122,9 +122,4 @@ class VeganRezept {
 
 $vegan_rezept = new VeganRezept();
 
-if(isset($_POST['func'])){
-    echo $_POST['func'];
-}
-
-
 ?>
