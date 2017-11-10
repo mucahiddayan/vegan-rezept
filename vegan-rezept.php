@@ -148,7 +148,7 @@ class VeganRezept {
         }
         $userID = get_current_user_id();
         try{
-            $current = $this->get_recipes_from_book();
+            $current = $this->get_recipes_from_book($userID);
         }catch(Exception $e){
             return $e->getMessage();
         }
