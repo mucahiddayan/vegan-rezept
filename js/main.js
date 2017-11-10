@@ -107,9 +107,8 @@ let getRecipe = (id)=>{
 
 let getRecipesFromMyBook = ()=>{
     
-    fetch(veganRezept.pluginDirUrl+'ajax.php?func=get_recipes_from_my_book')
+    fetch(`${location.href}/wp-json/wp/book/userID=${veganRezept.userID}`)
     .then(e=>e.json())
-    .then(e=>console.log(e))
     .catch(err=>console.log(err))
 }
 
