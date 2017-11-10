@@ -18,6 +18,3 @@ if(isset($_POST["func"])){
             "recipes" => $vegan_rezept->get_recipes_from_my_book()));
     }
 }
-
-echo  json_encode(array(
-    "recipes" => $vegan_rezept->get_recipes_from_my_book()));
