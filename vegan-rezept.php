@@ -155,7 +155,7 @@ class VeganRezept {
         if(!in_array($recipe_id,$current)){
             array_push($current,$recipe_id);
         }
-        update_post_meta($userID,$this->recipe_book,$currentupdate);
+        update_post_meta($userID,$this->recipe_book,$current);
         return array($current,$userID,$recipe_id);
     }
 
