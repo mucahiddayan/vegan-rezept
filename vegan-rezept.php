@@ -137,13 +137,13 @@ class VeganRezept {
         try{
             $post = get_post($recipe_id);
         } catch(Exception $e){
-            return 'Exception abgefangen: '.  $e->getMessage();
+            return $this->errors['recipe_not_exist'];
         }
         if(!$post){
             return $this->errors['recipe_not_exist'];
         }
         $userID = get_current_user_id();
-        update_post_meta($userID,$this->recipe_book,$recipe_id);
+        return update_post_meta($userID,$this->recipe_book,$recipe_id);
     }
 
     public function remove_from_my_book($recipe_id){
