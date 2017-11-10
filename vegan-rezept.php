@@ -133,7 +133,7 @@ class VeganRezept {
         }catch(Exception $e){
             echo 'Exception abgefangen: ',  $e->getMessage(), "\n";
         }        
-        return $recipe_ids;
+        return $userID;
     }
 
     public function custom_rest_api_end_points(){
