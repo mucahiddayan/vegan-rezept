@@ -12,6 +12,7 @@
 class VeganRezept {
     
     private $slug = 'asana-finder';
+    private $recipe_book = '_recipe_book';
     
     public function __construct(){
         add_action( 'wp_enqueue_scripts', array( $this,'vegan_rezept_styles') );
@@ -99,6 +100,16 @@ class VeganRezept {
         <recipes ng-app="app"></recipes>
         <?php
                
+    }
+
+    public function add_to_my_book($recipe_id){
+        $userID = bp_displayed_user_id();
+        updata_post_meta($userID,$this->recipe_book,$recipe_id);
+    }
+
+    public function get_recipes_from_my_book(){
+        $userID = bp_displayed_user_id();
+        $recipe_ids = get_post_meta($userID,$this->recipe_book);
     }
 
     #bp_displayed_user_id()
