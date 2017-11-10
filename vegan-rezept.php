@@ -148,12 +148,21 @@ class VeganRezept {
         }
         $userID = get_current_user_id();
         try{
-            $current = $this->get_recipes_from_my_book();
+            $current = $this->get_recipes_from_book();
         }catch(Exception $e){
             return $e->getMessage();
         }
         update_post_meta($userID,$this->recipe_book,$recipe_id);
         return array($current,$userID,$recipe_id);
+    }
+
+    private function get_recipes_from_book($userID){
+        try{
+            $recipes = get_post_meta($userID,$this->recipe_book,false)
+        }catch($e){
+            return $e->getMessage();
+        }
+        return $recipes;
     }
 
     public function remove_from_my_book($recipe_id){
@@ -166,7 +175,7 @@ class VeganRezept {
         }
         $userID = $request->get_params()['userID'];
         try{
-            $recipe_ids = get_post_meta($userID,$this->recipe_book,false);
+            $recipe_ids = get_recipes_from_book($userID);
         }catch(Exception $e){
             return $e->getMessage().' '.$this->errors['no_user'];
         }        
