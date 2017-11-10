@@ -103,19 +103,28 @@ class VeganRezept {
     }
 
     public function add_to_my_book($recipe_id){
-        $userID = bp_displayed_user_id();
-        updata_post_meta($userID,$this->recipe_book,$recipe_id);
+        $userID = get_current_user_id();
+        update_post_meta($userID,$this->recipe_book,$recipe_id);
+    }
+
+    public function remove_from_my_book($recipe_id){
+        $current = $this->get_recipes_from_my_book();
     }
 
     public function get_recipes_from_my_book(){
-        $userID = bp_displayed_user_id();
+        $userID = get_current_user_id();
         $recipe_ids = get_post_meta($userID,$this->recipe_book);
+        return $recipe_ids;
     }
 
     #bp_displayed_user_id()
 }
 
 $vegan_rezept = new VeganRezept();
+
+if(isset($_POST['func'])){
+    echo $_POST['func'];
+}
 
 
 ?>
