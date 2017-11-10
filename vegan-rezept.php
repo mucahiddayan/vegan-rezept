@@ -131,7 +131,7 @@ class VeganRezept {
     public function get_recipes_from_my_book($request){
         $userID = $request->get_params()['userID'];
         if(empty($userID)){
-            return new WP_Error( 'no_user_id', 'Invalid User ID', array( 'status' => 404 ) );
+            return array('no_user_id', 'Invalid User ID', array( 'status' => 404 ));
         }
         try{
             $recipe_ids = get_post_meta($userID,$this->recipe_book,false);
