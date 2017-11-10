@@ -17,4 +17,6 @@ if(isset($_POST["func"])){
         echo json_encode(array(
             "recipes" => $vegan_rezept->get_recipes_from_my_book()));
     }
+}else{
+    echo json_encode(array('message' => 'no post request'));
 }
