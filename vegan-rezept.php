@@ -103,7 +103,7 @@ class VeganRezept {
     }
 
     public function add_to_my_book($recipe_id){
-        if(empty($reicpe_id)){
+        if(empty($recipe_id)){
             throw new Exception("Rezept Id darf nicht fehlen");
         }
         try{
