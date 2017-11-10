@@ -122,10 +122,10 @@ let addToMyBook = (recipeID)=>{
     return fetch(`${location.href}wp-json/wp/v2/book/`,{
         method:'POST',
         headers,
-        body:{
+        body:JSON.stringify({
             recipeID,
             userID:veganRezept.userID
-            }
+            })
     })
     .then(e=>e.json())
     .catch(err=>console.log(err))
