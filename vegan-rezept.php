@@ -25,6 +25,14 @@ class VeganRezept {
         'no_user' => array(
             'status' => 9002,
             'message'=> 'no user with this id'
+        ),
+        'recipe_not_exist' => array(
+            'status' => 9003,
+            'message'=> 'recipe with this id does not exist'
+        ),
+        'no_veganer' => array(
+            'status' => 9004,
+            'message'=> 'you are not a veganer !'
         )
     );
     
@@ -124,10 +132,7 @@ class VeganRezept {
             return $this->errors['no_params'];
         }
         if(!is_user_logged_in() || !current_user_can('veganer') ){
-            throw new Exception("Du bist kein Veganer! Verpiss dich");
-        }
-        if(empty($recipe_id)){
-            throw new Exception("Rezept Id darf nicht fehlen");
+            return $this->errors['no_veganer'];
         }
         try{
             $post = get_post($recipe_id);
@@ -135,7 +140,7 @@ class VeganRezept {
             echo 'Exception abgefangen: ',  $e->getMessage(), "\n";
         }
         if(!$post){
-            throw new Exception("Dieses Rezept existiert nicht");
+            return $this->errors['recipe_not_exist'];
         }
         $userID = get_current_user_id();
         update_post_meta($userID,$this->recipe_book,$recipe_id);
