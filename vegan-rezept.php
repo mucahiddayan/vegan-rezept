@@ -137,7 +137,7 @@ class VeganRezept {
         try{
             $post = get_post($recipe_id);
         } catch(Exception $e){
-            echo 'Exception abgefangen: ',  $e->getMessage(), "\n";
+            return 'Exception abgefangen: '.  $e->getMessage();
         }
         if(!$post){
             return $this->errors['recipe_not_exist'];
