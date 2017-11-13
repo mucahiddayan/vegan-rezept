@@ -15,6 +15,20 @@
     overflow: hidden;
     position: relative;
     margin:10px 5px;
+    transition: all .5s;
+    opacity: 1;
+}
+
+.recipe-wrapper.ng-scope.liking {
+    box-shadow: 0px 0px 10px 0px #3baa14 !important;
+    /* animation: animation 2000ms linear infinite both; */
+    transform: scale(.7);
+}
+
+.recipe-wrapper.ng-scope.disliking {
+    opacity: .6;
+    transform: scale(.7);
+    /* animation: animation 2000ms linear infinite both; */
 }
 
 .like-dislike {
@@ -72,3 +86,15 @@
     height: 100%;
 }
 
+/*experimental*/
+
+
+  
+  /* Generated with Bounce.js. Edit at https://goo.gl/qFmx4E */
+  
+
+
+
+
+  
+  

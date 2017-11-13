@@ -158,9 +158,20 @@ app.controller('mainController',['$scope',($scope)=>{
 
 
 // DIRECTIVES
-app.directive('recipes',()=>{
+app.directive('recipes',($http)=>{
     let link = (scope,el,attrs)=>{
-        console.log(scope.rType);
+        let headers = {
+            'X-WP-Nonce':veganRezept.nonce,
+            'Content-Type':'application/json'
+        }
+        
+        let request = {
+            withCredentials: true,
+            headers
+        }
+
+        let URL = `${location.origin}/wp-json/wp/v2/mybook/`;
+
         scope.recipes = scope.rType === 'book'?JSON.parse(veganRezept.bookContent):JSON.parse(veganRezept.recipes);
         scope.defaultImg = `${veganRezept.pluginDirUrl}/img/salad.png`;
         // console.log(scope.recipes);
@@ -175,14 +186,22 @@ app.directive('recipes',()=>{
             return scope.liked.includes(rec.ID);
         }
 
-        scope.dislike = (rec,index)=>{
-            console.log(rec.ID);
-            removeFromMyBook(rec.ID).catch(err=>console.warn(err));
-            // let index = scope.liked.indexOf(rec.ID);
-            scope.liked = remove(scope.liked,rec.ID);
-            if(scope.rType === 'book'){
-                scope.recipes.splice(index,1);
-            }
+        scope.dislike = (rec,index,event)=>{
+            console.log(event.target);
+            let recipe = angular.element(event.target).parent().parent().parent();
+            recipe.addClass('disliking');
+            var req = Object.assign({},request);
+            req.data = {recipeID : rec.ID};
+            $http.delete(URL,request).then(e=>{
+                scope.liked = remove(scope.liked,rec.ID);
+                recipe.removeClass('disliking');
+                if(scope.rType === 'book'){
+                    recipe.removeClass('disliking');
+                    scope.recipes.splice(index,1);
+                    
+                }
+            });
+            
         }
 
         let remove = (arr,id)=>{
@@ -191,10 +210,15 @@ app.directive('recipes',()=>{
             return arr;
         }
 
-        scope.like = (rec) =>{
-            console.log(rec.ID);
-            addToMyBook(rec.ID).catch(err=>console.warn(err));
-            scope.liked.push(rec.ID);
+        scope.like = (rec,event) =>{
+            if(!rec)return;         
+            let recipe = angular.element(event.target).parent().parent().parent();
+            recipe.addClass('liking');   
+            $http.post(URL,{recipeID:rec.ID},request).then(e=>{
+                scope.liked.push(rec.ID);
+                recipe.removeClass('liking');
+            });
+            
         }
     }
     
@@ -213,8 +237,8 @@ app.directive('recipes',()=>{
         <span title="{{recipe.post_title}}" ng-bind="recipe.post_title |excerpt:2"></span>
         </a>
         <div class="like-dislike">
-            <i ng-click="like(recipe)" title="like" ng-if="!isLiked(recipe)" class="fa fa-thumbs-up" aria-hidden="true"></i>
-            <i ng-click="dislike(recipe,$index)" title="dislike" ng-if="isLiked(recipe)" class="fa fa-thumbs-up liked" aria-hidden="true"></i>
+            <i ng-click="like(recipe,$event)" title="like" ng-if="!isLiked(recipe)" class="fa fa-thumbs-up" aria-hidden="true"></i>
+            <i ng-click="dislike(recipe,$index,$event)" title="dislike" ng-if="isLiked(recipe)" class="fa fa-thumbs-up liked" aria-hidden="true"></i>
         </div>
         </div>
         <h2 class="recipes-empty" ng-if="!recipes.length">Es gibt kein Rezept zu zeigen!</h2>
