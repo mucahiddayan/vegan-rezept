@@ -182,7 +182,7 @@ class VeganRezept {
         }catch(Exception $e){
             return $e->getMessage().' '.$this->errors['no_user'];
         }        
-        return json_encode($recipe_ids);
+        return json_encode(array('recipes'=>$recipe_ids));
     }
 
     public function custom_rest_api_end_points(){
