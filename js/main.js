@@ -29,7 +29,6 @@ let createRecipe = (recipe)=>{
         },
         body:JSON.stringify(recipe),
     })
-    .then(e=>e.json())
     .catch(err=>console.log(err));
 }
 
@@ -51,7 +50,6 @@ let editRecipe = (recipe)=>{
         },
         body:JSON.stringify(recipe),
     })
-    .then(e=>e.json())
     .catch(err=>console.log(err));
 }
 
@@ -73,7 +71,6 @@ let deleteRecipe = (id)=>{
             'Content-Type':'application/json'
         }
     })
-    .then(e=>e.json())
     .catch(err=>console.log(err));
 }
 
@@ -87,7 +84,6 @@ let getRecipes = ()=>{
             'Content-Type':'application/json'
         }
     })
-    .then(e=>e.json())
     .catch(err=>console.log(err));
 }
 
@@ -104,7 +100,6 @@ let getRecipe = (id)=>{
     return fetch(`${location.origin}/wp-json/wp/v2/recipes/${id}`,{
         headers
     })
-    .then(e=>e.json())
     .catch(err=>console.log(err));
 }
 
