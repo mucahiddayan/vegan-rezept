@@ -11,9 +11,9 @@
 
 class VeganRezept {
     
-    private $slug = 'asana-finder';
-    private $recipe_book = '_recipe_book';
-    private $errors = array(
+    protected $slug = 'asana-finder';
+    protected $recipe_book = '_recipe_book';
+    protected $errors = array(
         'no_request_params' => array(
             'status' => 9000,
             'message'=> 'passed no parameter'
@@ -62,6 +62,8 @@ class VeganRezept {
             'recipes' => json_encode($this->get_recipes()),
             'nonce' => wp_create_nonce( 'wp_rest' ),
             'userID' => get_current_user_id(),
+            'book' => $this->get_book_content(get_current_user_id()),
+            'bookContent' => json_encode($this->get_recipes_from_book())
             )
         );
         wp_enqueue_script( 'vegan_rezept_js');
@@ -90,6 +92,42 @@ class VeganRezept {
             'position'              => 200,
             'default_subnav_slug'   => 'recipes'
         ) );
+
+        bp_core_new_nav_item( array(
+            'name'                  => 'Rezept Buch',
+            'slug'                  => 'recipe_book',
+            'parent_url'            => $bp->displayed_user->domain,
+            'parent_slug'           => $bp->profile->slug,
+            'screen_function'       => array($this,'recipe_book'),			
+            'position'              => 200,
+            'default_subnav_slug'   => 'recipe_book'
+        ) );
+    }
+
+    public function recipe_book(){
+        add_action( 'bp_template_title', function(){echo "Rezept Book";} );
+        add_action( 'bp_template_content', array($this,'show_recipe_book') );
+        bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
+    }
+
+    public function show_recipe_book(){
+        ?>       
+        <recipes ng-app="app" r-type="book"></recipes>
+        <?php
+    }
+
+    public function get_recipes_from_book(){
+        #$recipes = $this->get_book_content(get_current_user_id());
+        $recipes = $this->get_book_content(bp_displayed_user_id());
+        if(empty($recipes)){
+            return;
+        }
+        $arr = array();
+
+        foreach($recipes as $id){
+            array_push($arr,get_post($id));
+        }
+        return $this->extract_to_array($arr);
     }
 
     public function recipes_screen(){
@@ -116,10 +154,9 @@ class VeganRezept {
     }
 
     public function extract_to_array($inArray){
-        $newPost;
         foreach($inArray as $recipe){            
             $recipe->img_url = get_the_post_thumbnail_url($recipe->ID,'td_218x150');
-            $recipe->ingredients = get_post_meta($recipe->ID,'recipe_ingredients',true);
+            $recipe->ingredients = get_post_meta($recipe->ID,'recipe_ingredients',false);
         }
         return $inArray;
     }
@@ -131,70 +168,147 @@ class VeganRezept {
                
     }
 
-    public function add_to_my_book($request){
-        if(empty($request->get_params())){return $this->errors['no_request_params'];} 
-        // if(empty($request->get_params()['userID'])){return $this->errors['no_user_id'];}
-        if(empty($recipe_id = $request->get_params()['recipeID'])){return $this->errors['no_recipe_id'];}
-        if(!is_user_logged_in() || !current_user_can('veganer') ){
-            return $this->errors['no_veganer'];
-        }
+    ###########################  REST API FUNCTIONS  ##################################
+    protected function get_book_content($userID){
         try{
-            $post = get_post($recipe_id);
-        } catch(Exception $e){
-            return $this->errors['recipe_not_exist'];
+            $book_content = get_post_meta($userID,$this->recipe_book,false);
+        }catch(Exception $e){
+            return $e->getMessage();
         }
-        if(!$post){
-            return $this->errors['recipe_not_exist'];
+        if(empty($book_content)){
+            return;
         }
+        if($book_content[0] == ''){
+            return array();
+        }
+        return $book_content[0];        
+    }
+
+    public function get_my_book_content($request){
         $userID = get_current_user_id();
+        return $this->get_book_content($userID);
+    }
+
+    protected function remove_all_from_book($userID){
         try{
-            $current = $this->get_recipes_from_book($userID);
+            $book_content = update_post_meta($userID,$this->recipe_book,'');
         }catch(Exception $e){
             return $e->getMessage();
         }
-        if(!in_array($recipe_id,$current)){
-            array_push($current,$recipe_id);
-        }
-        update_post_meta($userID,$this->recipe_book,$current);
-        return array($current,$userID,$recipe_id);
+        
+        return $book_content;   
     }
 
-    private function get_recipes_from_book($userID){
+    /* protected */ function remove_from_book($userID,$recipeID){
+        return $this->update_book($userID,$recipeID,'remove');
+    }
+
+    public function remove_from_my_book($request){
+        $userID = get_current_user_id();
+        $params = $request->get_params();
+        if(empty($params['recipeID'])){
+            $result = $this->remove_all_from_book($userID);
+        }else{
+            $result = $this->remove_from_book($userID,$params['recipeID']);
+        }
+        return $result;
+    }
+
+    protected function add_to_book($userID,$recipeID){
+        $res;
+        if(empty($userID) || empty($recipeID)){
+            if(empty($userID)){
+                $res =  'User ID is empty';
+            }
+            if(empty($recipeID)){
+                $res .= ' Recipe ID is empty';
+            }
+            return $res;
+        }else{
+            try{
+                $recipe = get_post_type($recipeID); 
+            }catch(Exception $e){
+                return $e->getMessage();
+            }
+            if($recipe === 'recipe'){
+                try{
+                    $res = $this->update_book($userID,$recipeID,'add'); 
+                }catch(Exception $e){
+                    $res = $e->getMessage();
+                }
+            }else{
+                $res = 'Recipe with ID '.$recipeID.' does not exist';
+            }
+            return $res;
+        }
+    }
+
+    public function add_to_my_book($request){
+        $userID = get_current_user_id();
+        $params = $request->get_params();
         try{
-            $recipes = get_post_meta($userID,$this->recipe_book,false);
+            $res = $this->add_to_book($userID,$params['recipeID']);
         }catch(Exception $e){
-            return $e->getMessage();
+            $res = $e->getMessage();
         }
-        return $recipes;
+        return $res;
     }
 
-    public function remove_from_my_book($recipe_id){
-        $current = $this->get_recipes_from_my_book();
+    protected function update_book($userID,$recipeID,$type){
+        if(empty($userID) || empty($recipeID) ||empty($type)){
+            return 'Any one of userID,recipeID,type can not be empty';
+        }
+        
+        $current = get_post_meta($userID,$this->recipe_book,false)[0];
+        $current = !is_array($current)?array():$current;
+        if($type === 'add'){
+            if(!in_array($recipeID,$current)){
+                array_push($current,$recipeID);
+            }            
+        }
+        if($type === 'remove'){
+            $current = $this->remove_item_from_array($recipeID,$current);            
+        }
+        return update_post_meta($userID,$this->recipe_book,$current);
     }
 
-    public function get_recipes_from_my_book($request){
-        if(empty($request->get_params()) || empty($request->get_params()['userID'])){
-            return $this->errors['no_user_id'];
+    protected function remove_item_from_array($item,$arr){
+        $newArr = array();
+        foreach($arr as $i){
+            if($i !== $item){
+                array_push($newArr,$i);
+            }
         }
-        $userID = $request->get_params()['userID'];
-        try{
-            $recipe_ids = $this->get_recipes_from_book($userID);
-        }catch(Exception $e){
-            return $e->getMessage().' '.$this->errors['no_user'];
-        }        
-        return json_encode(array('recipes'=>$recipe_ids));
+        return $newArr;
+    }
+
+    public function test(){
+        return 1;
     }
 
     public function custom_rest_api_end_points(){
-        register_rest_route( 'wp/v2', '/book/', 
+        register_rest_route( 'wp/v2', '/mybook/', 
             array(
                 array(
                     'methods' => 'GET',
-                    'callback' => array($this,'get_recipes_from_my_book'),
+                    'callback' => array($this,'get_my_book_content'),
+                    'permission_callback' => function () {
+                        return current_user_can( 'veganer' );
+                    }
                 ),
                 array(
                     'methods' => 'POST',
                     'callback' => array($this,'add_to_my_book'),
+                    'permission_callback' => function () {
+                        return current_user_can( 'veganer' );
+                    }
+                ),
+                array(
+                    'methods' => 'DELETE',
+                    'callback' => array($this,'remove_from_my_book'),
+                    'permission_callback' => function () {
+                        return current_user_can( 'veganer' );
+                    }
                 ),
             ) 
         );      
